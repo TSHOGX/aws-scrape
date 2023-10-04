@@ -16,7 +16,7 @@ def main(event, context):
     driver = webdriver.Chrome("/opt/chromedriver", chrome_options=options)
 
     dynamodb = boto3.resource("dynamodb", region_name="us-east-2")
-    table = dynamodb.Table("nikeshoes")
+    table = dynamodb.Table("nike-shoes")
 
     # Target
     url = "https://www.nike.com/w/womens-jordan-shoes-37eefz5e1x6zy7ok"
@@ -124,7 +124,7 @@ def main(event, context):
         image_urls = [
             url
             for url in image_urls_row
-            if product_name.lower().replace(" ", "-") in url and "t_PDP_1280_v1" in url
+            if product_name.lower().replace(" ", "-").replace(".", "") in url and "t_PDP_1280_v1" in url
         ]
         image_urls = list(set(image_urls))
 
@@ -160,6 +160,6 @@ def main(event, context):
     driver.close()
     driver.quit()
 
-    response = {"statusCode": 200, "body": "end"}
+    response = {"statusCode": 200, "body": "finish"}
 
     return response
